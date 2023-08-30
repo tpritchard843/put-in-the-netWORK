@@ -1,65 +1,113 @@
-const http = require('http');
-const fs = require('fs')
-const url = require('url');
-const querystring = require('querystring');
-const figlet = require('figlet');
+const morgan = require('morgan')
+const express = require('express')
+const app = express()
 
-const server = http.createServer((req, res) => {
-  const readWrite = (file, contentType) => {
-    fs.readFile(file, function(err, data) {
-      res.writeHead(200, {'Content-Type': contentType});
-      res.write(data);
-      res.end();
-    });
-  };
+app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'))
 
-  const page = url.parse(req.url).pathname;
-  const params = querystring.parse(url.parse(req.url).query);
-  console.log(page);
+morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`)
 
-  switch(page) {
-    case '/':
-      readWrite('index.html', 'text/html');
-      break;
-    case '/otherpage':
-      readWrite('otherpage.html', 'text/html');
-      break;
-    case '/otherotherpage':
-      readWrite('otherotherpage.html', 'text/html');
-      break;
-    case '/api':
-      //Coin flip API
-      let flipResult = 'type flip in the input box';
-      if (params['coinflip'] == 'flip') {
-        flipResult = Math.random() <= 0.5 ? 'heads' : 'tails';
-      }
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        const objToJson = {
-          result: flipResult
-        }
-        res.end(JSON.stringify(objToJson));
-      break;
-    case '/css/style.css':
-      fs.readFile('css/style.css', function(err, data) {
-        res.write(data);
-        res.end();
-      });
-      break;
-    case '/js/main.js':
-      readWrite('js/main.js', 'text/javascript');
-      break;
-    default:
-      figlet('404!!', function(err, data) {
-        if (err) {
-            console.log('Something went wrong...');
-            console.dir(err);
-            return;
-        }
-        res.write(data);
-        res.end();
-      });
-      break;
+
+let phonebook = [
+  {
+    "id": 1,
+    "name": "Arto Hellas",
+    "number": "040-123456"
+  },
+  {
+    "id": 2,
+    "name": "Ada Lovelace",
+    "number": "39-44-5323523"
+  },
+  {
+    "id": 3,
+    "name": "Dan Abramov",
+    "number": "12-43-234345"
+  },
+  {
+    "id": 4,
+    "name": "Mary Poppendieck",
+    "number": "39-23-6423122"
+  },
+  {
+    "id": 5,
+    "name": "Johnny Bravo",
+    "number": "86-75-3093457"
   }
-});
+]
 
-server.listen(8000);
+app.get('/', (req, res) => {
+  res.send('<h1>Hello World!</h1>')
+})
+
+app.get('/info', (req,res) => {
+  res.send(`<p>Phonebook has info for ${phonebook.length} people</p>
+  <p>${Date()}</p>`)
+})
+
+const generateId = () => {
+  const maxId = phonebook.length > 0
+    ? Math.max(...phonebook.map(n => n.id))
+    : 0
+  return maxId + 1
+}
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+  console.log(body.name)
+  console.log(phonebook)
+
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'name is missing'
+    })
+  }
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'number is missing'
+    })
+  }
+
+  if (phonebook.some(person => person.name === body.name)) {
+    return response.status(409).json({
+      error: 'name must be unique'
+    })
+  }
+
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  }
+
+  phonebook = phonebook.push(person)
+
+  response.json(person)
+})
+
+app.get('/api/persons', (req, res) => {
+  res.json(phonebook)
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  phonebook = phonebook.filter(person => person.id !== id)
+
+  response.status(204).end()
+})
+
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const person = phonebook.find(person => person.id === id)
+
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).end()
+  }
+})
+
+const PORT = 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
