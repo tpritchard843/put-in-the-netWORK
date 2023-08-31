@@ -1,7 +1,10 @@
+const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
 const morgan = require('morgan');
 const express = require('express');
 const app = express();
 const PORT = 3001;
+require('dotenv').config();
 
 app.use(express.json());
 app.use(express.static('public'));''
@@ -58,20 +61,15 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 })
 
-app.get('/info', (req,res) => {
-  res.send(`<p>Phonebook has info for ${phonebook.length} people</p>
-  <p>${Date()}</p>`);
-})
-
-const generateId = () => {
-  const maxId = rolodex.length > 0
-    ? Math.max(...rolodex.map(n => n.id))
-    : 0;
-  return maxId + 1;
-}
+// const generateId = () => {
+//   const maxId = rolodex.length > 0
+//     ? Math.max(...rolodex.map(n => n.id))
+//     : 0;
+//   return maxId + 1;
+// }
 
 app.post('/api/persons', (request, response) => {
-  console.log('Helloooooooooooooo')
+  console.log('Helloooooooooooooo');
   // const body = request.body;
   // console.log(body.name);
   // console.log(rolodex);
@@ -106,28 +104,28 @@ app.post('/api/persons', (request, response) => {
   // response.json(person);
 })
 
-app.get('/api/persons', (req, res) => {
-  res.json(rolodex);
-})
+// app.get('/api/persons', (req, res) => {
+//   res.json(rolodex);
+// })
 
-app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  rolodex = rolodex.filter(person => person.id !== id);
+// app.delete('/api/persons/:id', (request, response) => {
+//   const id = Number(request.params.id);
+//   rolodex = rolodex.filter(person => person.id !== id);
 
-  response.status(204).end();
-})
+//   response.status(204).end();
+// })
 
-app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = rolodex.find(person => person.id === id);
+// app.get('/api/persons/:id', (request, response) => {
+//   const id = Number(request.params.id);
+//   const person = rolodex.find(person => person.id === id);
 
-  if (person) {
-    response.json(person);
-  } else {
-    response.status(404).end();
+//   if (person) {
+//     response.json(person);
+//   } else {
+//     response.status(404).end();
 
-  }
-})
+//   }
+// })
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
