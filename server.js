@@ -8,8 +8,20 @@ require('dotenv').config();
 
 app.use(express.json());
 app.use(express.static('public'));''
+app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'));
 morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
+
+
+// const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.0yckdw9.mongodb.net/?retryWrites=true&w=majority`;
+
+const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/`;
+
+MongoClient.connect(connectionString)
+  .then(client => {
+    console.log('Connected to Database');
+  })
+  .catch(err => console.error(err))
 
 // Dummy data for rolodex = [{},{},{},{}]
 
@@ -55,6 +67,8 @@ morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
 //     "spark":"Bruce Springsteen",
 //   }
 // ]
+
+
 
 app.get('/', (req, res) => {
   // send index.html
@@ -128,5 +142,6 @@ app.post('/api/persons', (request, response) => {
 // })
 
 app.listen(PORT, () => {
+  //console.log(connectionString)
   console.log(`Server running on port ${PORT}`);
 })
