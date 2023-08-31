@@ -32,6 +32,7 @@ MongoClient.connect(connectionString)
         .insertOne(req.body)
         .then(result => {
           console.log(result)
+          res.redirect('/');
         })
         .catch(err => console.error(err))
     })
