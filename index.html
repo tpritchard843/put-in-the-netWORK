@@ -9,7 +9,13 @@
     <h1>Coffee Chat Rolodex</h1>
     <button id="clickMe" type="button" name="button">Add Person</button>
     <section class="form">
-      <form action="submit"></form>
+      <form action="/persons" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="email" placeholder="Email" required>
+        <input type="text" name="company" placeholder="Company" required>
+        <input type="date" name="date-added" required>
+        <input type="text" name="spark" placeholder="Spark" required>
+      </form>
     </section>
     <script type="text/javascript" src="/js/main.js"></script>
     <!-- Add person Button -- Modal popup with the form-->
