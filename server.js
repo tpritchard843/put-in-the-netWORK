@@ -7,10 +7,17 @@ const PORT = 3001;
 require('dotenv').config();
 
 app.use(express.json());
-app.use(express.static('public'));''
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: true }))
+
 //app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'));
 morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
+const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/`
 
+MongoClient.connect(connectionString, (err, client) => {
+  if (err) return console.error(err)
+  console.log('Connected to Database')
+})
 // Dummy data for rolodex = [{},{},{},{}]
 
 // let rolodex = [
