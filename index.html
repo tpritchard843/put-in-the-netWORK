@@ -2,8 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <h1>Coffee Chat Rolodex</h1>
@@ -17,7 +18,6 @@
         <input type="text" name="spark" placeholder="Spark" required>
       </form>
     </section>
-    <script type="text/javascript" src="/js/main.js"></script>
     <!-- Add person Button -- Modal popup with the form-->
     <!-- Form :
     Name
@@ -28,19 +28,22 @@
     <div class="slideshow-container">
       <div class="mySlides fade">
         <div class="numbertext">1 / 3</div>
-        <img src="img1.jpg" style="width:100%">
+        <section class="cards">
+        </section>
         <div class="text">Caption Text</div>
       </div>
     
       <div class="mySlides fade">
         <div class="numbertext">2 / 3</div>
-        <img src="img2.jpg" style="width:100%">
+        <section class="cards">
+        </section>
         <div class="text">Caption Two</div>
       </div>
     
       <div class="mySlides fade">
         <div class="numbertext">3 / 3</div>
-        <img src="img3.jpg" style="width:100%">
+        <section class="cards">
+        </section>
         <div class="text">Caption Three</div>
       </div>
     
@@ -49,5 +52,6 @@
       <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
     <br>
+    <script src="js/main.js"></script>
   </body>
 </html>
