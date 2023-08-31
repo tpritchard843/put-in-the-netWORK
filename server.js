@@ -104,7 +104,6 @@ app.get('/api/persons/:id', (request, response) => {
     response.json(person)
   } else {
     response.status(404).end()
-
   }
 })
 
