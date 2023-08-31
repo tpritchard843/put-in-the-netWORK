@@ -4,6 +4,7 @@ const app = express();
 const PORT = 3001;
 
 app.use(express.json());
+app.use(express.static('public'));''
 //app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'));
 morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
 
@@ -54,7 +55,7 @@ morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
 
 app.get('/', (req, res) => {
   // send index.html
-  res.send('<h1>Hello World!</h1>');
+  res.sendFile(__dirname + '/index.html');
 })
 
 app.get('/info', (req,res) => {
