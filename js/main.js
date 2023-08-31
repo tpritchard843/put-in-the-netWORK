@@ -2,6 +2,7 @@ document.querySelector('#clickMe').addEventListener('click', makeReq);
 // add anon function to event listener and save makeReq promise to var in order to manipulate the fetched data
 // maybe call makeReq from that function()
 
+
 async function makeReq(){
 
   const userName = document.querySelector("#userName").value;
