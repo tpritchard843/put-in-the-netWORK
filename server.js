@@ -16,41 +16,32 @@ MongoClient.connect(connectionString)
     const db = client.db('networking-rolodex');
     const personsCollection = db.collection('persons');
 
-    //MiddleWare
-
-  app.use(express.json());
-  app.use(express.static('public'));''
-  app.use(bodyParser.urlencoded({ extended: true }));
+    // Middleware
+    app.use(express.json());
+    app.use(express.static('public'));''
+    app.use(bodyParser.urlencoded({ extended: true }));
     //app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'));
-  //morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
+    //morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
 
-    //Route
 
+    //Routes
     app.get('/', (req, res) => {
       // send index.html
       res.sendFile(__dirname + '/index.html');
     })
-
-    app.post('/persons', (req, res) => {
+    app.post('/persons', (req, res) =>{
       personsCollection
         .insertOne(req.body)
         .then(result => {
           console.log(result)
           res.redirect('/');
         })
-
-        .catch(err => {
-          console.log(err)
-        })
-  
-  })
-
-
+        .catch(err => console.error(err))
+    })
     app.listen(PORT, () => {
       //console.log(connectionString)
       console.log(`Server running on port ${PORT}`);
     })
-
   })
   .catch(err => console.error(err))
 
@@ -98,9 +89,6 @@ MongoClient.connect(connectionString)
 //     "spark":"Bruce Springsteen",
 //   }
 // ]
-
-
-
 
 
 // const generateId = () => {
@@ -172,4 +160,21 @@ MongoClient.connect(connectionString)
   app.post('/api/persons', (request, response) => {
     console.log('Helloooooooooooooo');
 
-  })
+// app.delete('/api/persons/:id', (request, response) => {
+//   const id = Number(request.params.id);
+//   rolodex = rolodex.filter(person => person.id !== id);
+
+//   response.status(204).end();
+// })
+
+// app.get('/api/persons/:id', (request, response) => {
+//   const id = Number(request.params.id);
+//   const person = rolodex.find(person => person.id === id);
+
+//   if (person) {
+//     response.json(person);
+//   } else {
+//     response.status(404).end();
+
+//   }
+// })
