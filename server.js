@@ -6,21 +6,51 @@ const app = express();
 const PORT = 3001;
 require('dotenv').config();
 
-app.use(express.json());
-app.use(express.static('public'));''
-app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'));
-morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
-const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/`
 
-
-// const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.0yckdw9.mongodb.net/?retryWrites=true&w=majority`;
-
-const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/`;
+//const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.0yckdw9.mongodb.net/`;
+const connectionString = `mongodb+srv://${encodeURIComponent(process.env.mongoUsername)}:${encodeURIComponent(process.env.mongoPassword)}@cluster0.uh4bxo2.mongodb.net/?retryWrites=true&w=majority`;
 
 MongoClient.connect(connectionString)
   .then(client => {
     console.log('Connected to Database');
+    const db = client.db('networking-rolodex');
+    const personsCollection = db.collection('persons');
+
+    //MiddleWare
+
+  app.use(express.json());
+  app.use(express.static('public'));''
+  app.use(bodyParser.urlencoded({ extended: true }));
+    //app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'));
+  //morgan.token('object', (req, res) =>  `${JSON.stringify(req.body)}`);
+
+    //Route
+
+    app.get('/', (req, res) => {
+      // send index.html
+      res.sendFile(__dirname + '/index.html');
+    })
+
+    app.post('/persons', (req, res) => {
+      personsCollection
+        .insertOne(req.body)
+        .then(result => {
+          console.log(result)
+          res.redirect('/');
+        })
+
+        .catch(err => {
+          console.log(err)
+        })
+  
+  })
+
+
+    app.listen(PORT, () => {
+      //console.log(connectionString)
+      console.log(`Server running on port ${PORT}`);
+    })
+
   })
   .catch(err => console.error(err))
 
@@ -71,10 +101,7 @@ MongoClient.connect(connectionString)
 
 
 
-app.get('/', (req, res) => {
-  // send index.html
-  res.sendFile(__dirname + '/index.html');
-})
+
 
 // const generateId = () => {
 //   const maxId = rolodex.length > 0
@@ -83,9 +110,33 @@ app.get('/', (req, res) => {
 //   return maxId + 1;
 // }
 
-app.post('/api/persons', (request, response) => {
-  console.log('Helloooooooooooooo');
-  // const body = request.body;
+
+
+// app.get('/api/persons', (req, res) => {
+//   res.json(rolodex);
+// })
+
+// app.delete('/api/persons/:id', (request, response) => {
+//   const id = Number(request.params.id);
+//   rolodex = rolodex.filter(person => person.id !== id);
+
+//   response.status(204).end();
+// })
+
+// app.get('/api/persons/:id', (request, response) => {
+//   const id = Number(request.params.id);
+//   const person = rolodex.find(person => person.id === id);
+
+//   if (person) {
+//     response.json(person);
+//   } else {
+//     response.status(404).end();
+
+//   }
+// })
+
+
+// const body = request.body;
   // console.log(body.name);
   // console.log(rolodex);
 
@@ -117,32 +168,8 @@ app.post('/api/persons', (request, response) => {
   // rolodex = rolodex.push(person);
 
   // response.json(person);
-})
 
-// app.get('/api/persons', (req, res) => {
-//   res.json(rolodex);
-// })
+  app.post('/api/persons', (request, response) => {
+    console.log('Helloooooooooooooo');
 
-// app.delete('/api/persons/:id', (request, response) => {
-//   const id = Number(request.params.id);
-//   rolodex = rolodex.filter(person => person.id !== id);
-
-//   response.status(204).end();
-// })
-
-// app.get('/api/persons/:id', (request, response) => {
-//   const id = Number(request.params.id);
-//   const person = rolodex.find(person => person.id === id);
-
-//   if (person) {
-//     response.json(person);
-//   } else {
-//     response.status(404).end();
-
-//   }
-// })
-
-app.listen(PORT, () => {
-  //console.log(connectionString)
-  console.log(`Server running on port ${PORT}`);
-})
+  })
