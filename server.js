@@ -6,7 +6,9 @@ const app = express();
 const PORT = 3001;
 require('dotenv').config();
 
-const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/`;
+
+//const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.0yckdw9.mongodb.net/`;
+const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/?retryWrites=true&w=majority`;
 
 MongoClient.connect(connectionString)
   .then(client => {
@@ -16,7 +18,7 @@ MongoClient.connect(connectionString)
 
     // Middleware
     app.use(express.json());
-    app.use(express.static('public'));''
+    app.use(express.static('public'));'' 
     app.use(bodyParser.urlencoded({ extended: true }));
 
 
