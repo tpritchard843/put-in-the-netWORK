@@ -8,7 +8,7 @@ require('dotenv').config();
 
 
 //const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.0yckdw9.mongodb.net/`;
-const connectionString = `mongodb+srv://${encodeURIComponent(process.env.mongoUsername)}:${encodeURIComponent(process.env.mongoPassword)}@cluster0.uh4bxo2.mongodb.net/?retryWrites=true&w=majority`;
+const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/?retryWrites=true&w=majority`;
 
 MongoClient.connect(connectionString)
   .then(client => {
