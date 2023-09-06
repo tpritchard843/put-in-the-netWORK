@@ -1,7 +1,13 @@
 //document.querySelector('#clickMe').addEventListener('click', makeReq);
-// add anon function to event listener and save makeReq promise to var in order to manipulate the fetched data
-// maybe call makeReq from that function()
+
+// Makes data request on Page load --> this is data-intensive and does not scale well. How can we refactor? Implement caching?
+
 window.addEventListener('load', makeReq);
+
+//Helper functions to feed Async
+//function to handle cardHTML
+//function to handle update
+//function to handle delete
 
 async function makeReq(){
   try {
@@ -9,40 +15,43 @@ async function makeReq(){
       method:'get',
       headers: {'Content-Type': 'application/json'},
     });
-    const rolodex = await res.json();
-    console.log(rolodex);
+    let rolodex = await res.json();
+    console.log(typeof rolodex); //object
+    getCardHtml(rolodex);
+  }
+  catch(err) {
+    console.error(err);
+  }
+}
 
-    const slideshow = document.querySelector('.slideshow-container');
+function getCardHtml(arr) {
+  const slideshow = document.querySelector('.slideshow-container');
 
     let cardHtml = ``;
-    rolodex.forEach((person, i) => {
+    arr.forEach((person, i) => {
       let card = document.createElement('div');
       card.setAttribute("class", "fade");
       if (i > 0) {
         card.setAttributeAttribute("class", "mySlides fade");
       }
-
       cardHtml += `
-        <div class="numbertext">1 / 3</div>
+        <div class="numbertext">${i+1} / ${arr.length}</div>
           <section class="cards">
             <h3 class="text name">${person.name}</h3>
             <h3 class="text email">${person.email}</h3>
             <h3 class="text company">${person.company}</h3>
             <h3 class="text dateAdded">${person.dateAdded}</h3>
             <h3 class="text spark">${person.spark}</h3>
+            <button class="delete-btn" data-card="${person._id}">Delete</button>
           </section>
-    `;
-
-    card.innerHTML = cardHtml;
-    slideshow.appendChild(card);
-  })
-  }
-  catch(err) {
-    console.error(err);
-  }
-  // fetch data and return json object containing rolodex array. return this arr as a promise of makeReq()
+      `;
+      card.innerHTML = cardHtml;
+      slideshow.appendChild(card);
+    })
 }
 
+// refactor slideindex code to use array index in async func ==> can feed that array in as a parameter and use corresponding index
+// maybe match ids?
 let slideIndex = 1;
 showSlides(slideIndex);
 
