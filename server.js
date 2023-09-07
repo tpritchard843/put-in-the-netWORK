@@ -86,13 +86,29 @@ MongoClient.connect(connectionString)
     })
 
     //UPDATE
-    app.put('/persons', (req, res) => {
-      // personsCollection
-      //   .findOneAndUpdate(param, update, options)
-      //   .then(result => {
-      //     res.redirect('/user-updated.html');
-      //   })
-      //   .catch(err => console.error(err))
+    app.put('/persons/:id', async(req, res) => {
+      try {
+        const { id: personId } = req.params;  //destructured req.params obj. {id: personId} = req.params === personId = req.params.id
+        //console.log(personId);
+        // use our id param to to query DB collection for the corresponding ID
+        console.log(req.body);
+        const person = await db.collection('persons').findOneAndUpdate(
+          { uuid: personId },
+          {
+            $set: {
+              name: req.body.name,
+              email: req.body.email,
+              company: req.body.company,
+              spark: req.body.spark
+            }
+          }
+          );
+        res.json(person);
+      }
+      catch (err) {
+        res.status(500).json({error: 'something went wrong'});
+        console.error(err);
+      }
     })
 
     //DELETE
@@ -114,7 +130,7 @@ MongoClient.connect(connectionString)
         console.error(err);
       }
     })
-    
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     })
