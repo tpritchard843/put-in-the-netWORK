@@ -3,11 +3,72 @@
 // Makes data request on Page load --> this is data-intensive and does not scale well. How can we refactor? Implement caching?
 
 window.addEventListener('load', makeReq);
+document.addEventListener('click', e => {
+  if (e.target.dataset.edit) {
+    console.log(e.target.dataset.edit); // logs id --> query based off id
+    createUpdateFormHtml(e.target.dataset.edit);
+    document.querySelector('.modal').removeAttribute('hidden');
+  }
+  if (e.target.dataset.update) {
+    console.log(e.target.dataset.update);
+    //updatePerson(e.target.dataset.update);
+  }
+  if (e.target.dataset.delete) {
+    console.log(e.target.dataset.delete);
+    deletePerson(e.target.dataset.delete);
+    //window.location.reload();
+  }
+})
 
-//Helper functions to feed Async
-//function to handle cardHTML
-//function to handle update
-//function to handle delete
+async function createModal(userId) {
+  const person = await getPersonById(userId);
+  createUpdateFormHtml(person);
+}
+
+async function updatePerson(userId) {
+  const person = await getPersonById(userId);
+}
+
+function createUpdateFormHtml(obj) {
+  // query based off id
+  let formContainer = document.createElement('div')
+  let formHtml = `
+  <form action="/persons" method="POST">
+    <input type="text" name="name" placeholder="Name" value="${obj.name}">
+    <input type="text" name="email" placeholder="Email" value="${obj.email}">
+    <input type="text" name="company" placeholder="Company" value="${obj.company}">
+    <input type="date" name="dateAdded" value="${obj.dateAdded}">
+    <input type="text" name="spark" placeholder="Spark" value="${obj.spark}">
+    <button class="clickMe" type="submit" data-update="${obj.uuid}">Update</button>
+  </form>
+  `;
+
+  formContainer.innerHTML = formHtml;
+  document.querySelector('#updateModal').appendChild(formContainer);
+}
+
+//delete working server side but not client side
+async function deletePerson(userId) {
+  try {
+    const url = `/persons/:id?uuid=${userId}`
+    console.log(url);
+    const res = await fetch(`/persons/${userId}`, {
+      method: 'delete',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        uuid: userId
+      })
+    });
+    let person = await res.json();
+    console.log(person);
+    //alert('Success, user deleted');
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+// ASYNC GET functions
 
 async function makeReq(){
   try {
@@ -16,13 +77,32 @@ async function makeReq(){
       headers: {'Content-Type': 'application/json'},
     });
     let rolodex = await res.json();
-    console.log(typeof rolodex); //object
+    console.log(rolodex); //object
     getCardHtml(rolodex);
   }
   catch(err) {
     console.error(err);
   }
 }
+
+async function getPersonById(userId) {
+  try {
+    const url = `/persons/:id?uuid=${userId}`
+    console.log(url);
+    const res = await fetch(`/persons/:id?uuid=${userId}`, {
+      method: 'get',
+      headers: {'Content-Type': 'application/json'},
+    });
+    let person = await res.json();
+    return person;
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+
+
 
 function getCardHtml(arr) {
   const slideshow = document.querySelector('.slideshow-container');
@@ -42,7 +122,8 @@ function getCardHtml(arr) {
             <h3 class="text company">${person.company}</h3>
             <h3 class="text dateAdded">${person.dateAdded}</h3>
             <h3 class="text spark">${person.spark}</h3>
-            <button class="delete-btn" data-card="${person._id}">Delete</button>
+            <button class="update-btn" id="updateBtn" data-edit="${person.uuid}">Update</button>
+            <button class="delete-btn" id="deleteBtn" data-delete="${person.uuid}">Delete</button>
           </section>
       `;
       card.innerHTML = cardHtml;
