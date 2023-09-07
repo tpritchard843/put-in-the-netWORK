@@ -19,7 +19,20 @@ class Person {
   }
 }
 
-const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/`;
+class Person {
+  constructor(name, email, company, dateAdded, spark) {
+    this.name = name;
+    this.email = email;
+    this.company = company;
+    this.dateAdded = dateAdded;
+    this.spark = spark;
+    this.uuid = uuid();
+  }
+}
+
+
+//const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.0yckdw9.mongodb.net/`;
+const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/?retryWrites=true&w=majority`;
 
 MongoClient.connect(connectionString)
   .then(client => {
