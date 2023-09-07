@@ -79,3 +79,14 @@ h2 {
   from {opacity: .4}
   to {opacity: 1}
 }
+
+
+
+.hidden {
+  display: none;
+}
+
+.modal {
+  width: 500px;
+  background: blue;
+}
