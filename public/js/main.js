@@ -16,6 +16,7 @@ document.addEventListener('click', e => {
   if (e.target.dataset.delete) {
     console.log(e.target.dataset.delete);
     deletePerson(e.target.dataset.delete);
+    alert('Success! User deleted.')
     window.location.reload();
   }
 })
