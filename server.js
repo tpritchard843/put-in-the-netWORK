@@ -1,6 +1,5 @@
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const ObjectId = require('mongodb').ObjectId;
 const { uuid }= require('uuidv4');
 const morgan = require('morgan');
 const express = require('express');
@@ -19,19 +18,6 @@ class Person {
   }
 }
 
-class Person {
-  constructor(name, email, company, dateAdded, spark) {
-    this.name = name;
-    this.email = email;
-    this.company = company;
-    this.dateAdded = dateAdded;
-    this.spark = spark;
-    this.uuid = uuid();
-  }
-}
-
-
-//const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.0yckdw9.mongodb.net/`;
 const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/?retryWrites=true&w=majority`;
 
 MongoClient.connect(connectionString)
@@ -47,6 +33,7 @@ MongoClient.connect(connectionString)
     app.use(bodyParser.json());
 
     //CRUD methods
+    //READ
     app.get('/', (req, res) => {
       db.collection('persons')
         .find()
@@ -65,7 +52,6 @@ MongoClient.connect(connectionString)
         })
         .catch(err => console.error(err))
     })
-    // query param for id to get
     app.get('/persons/:id', async (req, res) => {
       console.log({
         requestParams: req.params,
@@ -88,7 +74,7 @@ MongoClient.connect(connectionString)
         console.error(err);
       }
     })
-
+    //CREATE
     app.post('/persons', (req, res) =>{
       let newPerson = new Person(req.body.name, req.body.email, req.body.company, req.body.dateAdded, req.body.spark);
       personsCollection
@@ -99,7 +85,7 @@ MongoClient.connect(connectionString)
         .catch(err => console.error(err))
     })
 
-    //Update
+    //UPDATE
     app.put('/persons', (req, res) => {
       // personsCollection
       //   .findOneAndUpdate(param, update, options)
@@ -109,6 +95,7 @@ MongoClient.connect(connectionString)
       //   .catch(err => console.error(err))
     })
 
+    //DELETE
     app.delete('/persons/:id', async (req, res) => {
       try {
         const { id: personId } = req.params;  //destructured req.params obj. {id: personId} = req.params === personId = req.params.id
@@ -127,7 +114,7 @@ MongoClient.connect(connectionString)
         console.error(err);
       }
     })
-    //Delete
+    
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     })
