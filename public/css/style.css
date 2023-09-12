@@ -1,15 +1,67 @@
-* {box-sizing:border-box}
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing:border-box;
+}
 
-/* Slideshow container */
-.slideshow-container {
+* {
+  margin: 0;
+  font: inherit;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+/* Basic Styling */
+
+body {
+  background-color: #FFECD1;
+  color: #78290F;
+}
+
+/* Container */
+.container {
   max-width: 1000px;
   position: relative;
   margin: auto;
 }
 
+/* Buttons */ 
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: #001524;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+button {
+  background-color: #001524;
+  color: #FFECD1;
+}
+
+/* Slides */ 
+
 .cards {
-  background-color: red;
-  border: 3px solid black;
+  border: 5px solid #001524;
   width: 100%;
   height: 400px;
 }
@@ -19,40 +71,9 @@
   display: none;
 }
 
-h2 {
-  border: 1px solid black;
-}
-
-/* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  margin-top: -22px;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-}
-
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
-
 /* Caption text */
 .text {
-  color: #f2f2f2;
+  color: #001524;
   font-size: 15px;
   padding: 8px 12px;
   bottom: 8px;
@@ -62,8 +83,8 @@ h2 {
 
 /* Number text (1/3 etc) */
 .numbertext {
-  color: black;
-  font-size: 12px;
+  color: #001524;
+  font-size: 1.2em;
   padding: 8px 12px;
   position: absolute;
   top: 0;
@@ -79,6 +100,24 @@ h2 {
   from {opacity: .4}
   to {opacity: 1}
 }
+
+/* Form */
+label {
+  color: #78290F;
+  display: block;
+  font-size: 1.25em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+input {
+  margin: 0 0 1em 0;
+  width: 100%;
+}
+
+
+/* Update */ 
 
 .modal {
   width: 300px;
@@ -98,3 +137,4 @@ h2 {
   justify-content: center;
   gap: 10px;
 }
+
