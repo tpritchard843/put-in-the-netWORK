@@ -1,6 +1,20 @@
-/* Basic Styling */
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing:border-box;
+}
 
-* {box-sizing:border-box}
+* {
+  margin: 0;
+  font: inherit;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+/* Basic Styling */
 
 body {
   background-color: #FFECD1;
