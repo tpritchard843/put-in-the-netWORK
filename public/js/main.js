@@ -5,18 +5,16 @@
 window.addEventListener('load', makeReq);
 document.addEventListener('click', e => {
   if (e.target.dataset.edit) {
-    //console.log(e.target.dataset.edit); // logs id --> query based off id
     createModal(e.target.dataset.edit);
   }
   if (e.target.dataset.update) {
-    //console.log(e.target.dataset.update);
     updatePerson(e.target.dataset.update);
     window.location.reload();
   }
   if (e.target.dataset.delete) {
     console.log(e.target.dataset.delete);
     deletePerson(e.target.dataset.delete);
-    alert('Success! User deleted.');
+   //alert('Success! User deleted.');
     window.location.reload();
   }
 })
@@ -30,8 +28,7 @@ async function makeReq(){
       headers: {'Content-Type': 'application/json'},
     });
     let rolodex = await res.json();
-    console.log(rolodex); //object
-    getCardHtml(rolodex);
+    console.log(rolodex);
   }
   catch(err) {
     console.error(err);
@@ -59,8 +56,6 @@ async function getPersonById(userId) {
 
 async function updatePerson(userId) {
   const updateForm = document.querySelector('#updateForm');
-
-  //console.log(new FormData(updateForm));
   let formData = new FormData(updateForm);
   const name = formData.get('name');
   const email = formData.get('email');
@@ -80,8 +75,6 @@ async function updatePerson(userId) {
     });
     let person = await res.json();
     return person;
-    //console.log([...formData.entries()])
-    //alert('Success, user deleted');
   }
   catch (err) {
     console.error(err);
@@ -133,35 +126,6 @@ async function deletePerson(userId) {
   catch (err) {
     console.error(err);
   }
-}
-
-//HELPER FUNCTIONS
-
-function getCardHtml(arr) {
-  const slideshow = document.querySelector('.slideshow-container');
-
-    let cardHtml = ``;
-    arr.forEach((person, i) => {
-      let card = document.createElement('div');
-      card.setAttribute("class", "fade");
-      if (i > 0) {
-        card.setAttributeAttribute("class", "mySlides fade");
-      }
-      cardHtml += `
-        <div class="numbertext">${i+1} / ${arr.length}</div>
-          <section class="cards">
-            <h3 class="text name">${person.name}</h3>
-            <h3 class="text email">${person.email}</h3>
-            <h3 class="text company">${person.company}</h3>
-            <h3 class="text dateAdded">${person.dateAdded}</h3>
-            <h3 class="text spark">${person.spark}</h3>
-            <button class="update-btn" id="updateBtn" data-edit="${person.uuid}">Update</button>
-            <button class="delete-btn" id="deleteBtn" data-delete="${person.uuid}">Delete</button>
-          </section>
-      `;
-      card.innerHTML = cardHtml;
-      slideshow.appendChild(card);
-    })
 }
 
 // refactor slideindex code to use array index in async func ==> can feed that array in as a parameter and use corresponding index
