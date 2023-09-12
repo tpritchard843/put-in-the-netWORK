@@ -27,8 +27,9 @@ MongoClient.connect(connectionString)
     const personsCollection = db.collection('persons');
 
     // Middleware
+    app.set('view engine', 'ejs');
     app.use(express.json());
-    app.use(express.static('public'));''
+    app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
@@ -38,8 +39,8 @@ MongoClient.connect(connectionString)
       db.collection('persons')
         .find()
         .toArray()
-        .then(results => {
-          res.sendFile(__dirname + '/index.html');
+        .then(persons => {
+          res.render('index.ejs', {persons: persons});
         })
         .catch(err => console.error(err))
     })
@@ -47,6 +48,7 @@ MongoClient.connect(connectionString)
       db.collection('persons')
         .find()
         .toArray()
+        .sort()
         .then(results => {
           res.send(results);
         })
