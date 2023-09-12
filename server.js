@@ -27,8 +27,9 @@ MongoClient.connect(connectionString)
     const personsCollection = db.collection('persons');
 
     // Middleware
+    app.set('view engine', 'ejs');
     app.use(express.json());
-    app.use(express.static('public'));''
+    app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
@@ -38,8 +39,8 @@ MongoClient.connect(connectionString)
       db.collection('persons')
         .find()
         .toArray()
-        .then(results => {
-          res.sendFile(__dirname + '/index.html');
+        .then(persons => {
+          res.render('index.ejs', {persons: persons});
         })
         .catch(err => console.error(err))
     })
@@ -47,6 +48,7 @@ MongoClient.connect(connectionString)
       db.collection('persons')
         .find()
         .toArray()
+        .sort()
         .then(results => {
           res.send(results);
         })
@@ -86,13 +88,29 @@ MongoClient.connect(connectionString)
     })
 
     //UPDATE
-    app.put('/persons', (req, res) => {
-      // personsCollection
-      //   .findOneAndUpdate(param, update, options)
-      //   .then(result => {
-      //     res.redirect('/user-updated.html');
-      //   })
-      //   .catch(err => console.error(err))
+    app.put('/persons/:id', async(req, res) => {
+      try {
+        const { id: personId } = req.params;  //destructured req.params obj. {id: personId} = req.params === personId = req.params.id
+        //console.log(personId);
+        // use our id param to to query DB collection for the corresponding ID
+        console.log(req.body);
+        const person = await db.collection('persons').findOneAndUpdate(
+          { uuid: personId },
+          {
+            $set: {
+              name: req.body.name,
+              email: req.body.email,
+              company: req.body.company,
+              spark: req.body.spark
+            }
+          }
+          );
+        res.json(person);
+      }
+      catch (err) {
+        res.status(500).json({error: 'something went wrong'});
+        console.error(err);
+      }
     })
 
     //DELETE
@@ -114,7 +132,7 @@ MongoClient.connect(connectionString)
         console.error(err);
       }
     })
-    
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     })
