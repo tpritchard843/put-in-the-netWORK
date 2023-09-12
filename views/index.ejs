@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <h1>Coffee Chat Rolodex</h1>
+    <section class="form">
+      <form action="/persons" method="POST">
+        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="email" placeholder="Email">
+        <input type="text" name="company" placeholder="Company">
+        <input type="date" name="dateAdded">
+        <input type="text" name="spark" placeholder="Spark">
+        <button id="clickMe" type="submit">Add Person</button>
+      </form>
+    </section>
+    <!-- Add person Button -- Modal popup with the form-->
+    <!-- Form :
+    Name
+    email
+    Date added
+    company
+    spark -->
+    <div class="slideshow-container">
+      <% for(let i = 0; i < persons.length; i++) {%>
+        <div class="mySlides fade">
+          <div class="numbertext"><%=i+1%> / <%=persons.length%></div>
+            <section class="cards">
+              <h3 class="text name"><%=persons[i].name%></h3>
+              <h3 class="text email"><%=persons[i].email%></h3>
+              <h3 class="text company"><%=persons[i].company%></h3>
+              <h3 class="text dateAdded"><%=persons[i].dateAdded%></h3>
+              <h3 class="text spark"><%=persons[i].spark%></h3>
+              <button class="update-btn" id="updateBtn" data-edit=<%= persons[i].uuid%>>Update</button>
+              <button class="delete-btn" id="deleteBtn" data-delete=<%= persons[i].uuid%>>Delete</button>
+            </section>
+        </div>
+      <% } %>
+
+      <!-- Next and previous buttons -->
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <div class="modal hidden" id="updateModal"></div>
+    <br>
+    <script src="js/main.js"></script>
+  </body>
+</html>
