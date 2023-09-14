@@ -3,9 +3,12 @@ const MongoClient = require('mongodb').MongoClient;
 const { uuid }= require('uuidv4');
 const morgan = require('morgan');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = 3001;
 require('dotenv').config();
+
+app.use(cors());
 
 class Person {
   constructor(name, email, company, dateAdded, spark) {
