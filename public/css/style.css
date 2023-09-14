@@ -78,6 +78,10 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background-color: rgba(0, 21, 36, .9)
+}
+
 .update-btn {
   margin: 0 0 0 5.5rem;
 }

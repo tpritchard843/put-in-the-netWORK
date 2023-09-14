@@ -50,8 +50,8 @@ MongoClient.connect(connectionString)
     app.get('/persons', (req, res) => {
       db.collection('persons')
         .find()
+        .sort({name: 1})
         .toArray()
-        .sort()
         .then(results => {
           res.send(results);
         })
