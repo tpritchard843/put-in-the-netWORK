@@ -8,7 +8,6 @@ const app = express();
 const PORT = 3001;
 require('dotenv').config();
 
-app.use(cors());
 
 class Person {
   constructor(name, email, company, dateAdded, spark) {
@@ -35,6 +34,7 @@ MongoClient.connect(connectionString)
     app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+    app.use(cors());
 
     //CRUD methods
     //READ
