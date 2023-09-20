@@ -3,9 +3,11 @@ const MongoClient = require('mongodb').MongoClient;
 const { uuid }= require('uuidv4');
 const morgan = require('morgan');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = 3001;
 require('dotenv').config();
+
 
 class Person {
   constructor(name, email, company, dateAdded, spark) {
@@ -32,6 +34,7 @@ MongoClient.connect(connectionString)
     app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+    app.use(cors());
 
     //CRUD methods
     //READ
@@ -47,8 +50,8 @@ MongoClient.connect(connectionString)
     app.get('/persons', (req, res) => {
       db.collection('persons')
         .find()
+        .sort({name: 1})
         .toArray()
-        .sort()
         .then(results => {
           res.send(results);
         })

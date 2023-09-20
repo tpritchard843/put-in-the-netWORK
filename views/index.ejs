@@ -4,20 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <h1>Coffee Chat Rolodex</h1>
-    <section class="form">
-      <form action="/persons" method="POST">
-        <input type="text" name="name" placeholder="Name">
-        <input type="text" name="email" placeholder="Email">
-        <input type="text" name="company" placeholder="Company">
-        <input type="date" name="dateAdded">
-        <input type="text" name="spark" placeholder="Spark">
-        <button id="clickMe" type="submit">Add Person</button>
-      </form>
-    </section>
+
     <!-- Add person Button -- Modal popup with the form-->
     <!-- Form :
     Name
@@ -25,26 +18,52 @@
     Date added
     company
     spark -->
-    <div class="slideshow-container">
+    <div class="container">
       <% for(let i = 0; i < persons.length; i++) {%>
         <div class="mySlides fade">
           <div class="numbertext"><%=i+1%> / <%=persons.length%></div>
             <section class="cards">
-              <h3 class="text name"><%=persons[i].name%></h3>
-              <h3 class="text email"><%=persons[i].email%></h3>
-              <h3 class="text company"><%=persons[i].company%></h3>
-              <h3 class="text dateAdded"><%=persons[i].dateAdded%></h3>
-              <h3 class="text spark"><%=persons[i].spark%></h3>
-              <button class="update-btn" id="updateBtn" data-edit=<%= persons[i].uuid%>>Update</button>
-              <button class="delete-btn" id="deleteBtn" data-delete=<%= persons[i].uuid%>>Delete</button>
+              <h3 class="text name">Name: <%=persons[i].name%></h3>
+              <h3 class="text email">Email: <%=persons[i].email%></h3>
+              <h3 class="text company">Company: <%=persons[i].company%></h3>
+              <h3 class="text dateAdded">Date Added: <%=persons[i].dateAdded%></h3>
+              <h3 class="text spark">Spark: <%=persons[i].spark%></h3>
+              <button class="update-btn" id="updateBtn" aria-label="Update" data-edit=<%= persons[i].uuid%>><i class="fa fa-pencil-square-o" aria-hidden="true" title="Update this card"></i></button>
+              <button class="delete-btn" id="deleteBtn" aria-label="Delete" data-delete=<%= persons[i].uuid%>><i class="fa fa-trash" aria-hidden="true" title="Delete this card"></i></button>
             </section>
         </div>
       <% } %>
 
-      <!-- Next and previous buttons -->
       <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
       <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
+
+    <h2> Add Person </h2>
+      <section class="form cards container">
+        <form action="/persons" method="POST">
+          <label> 
+            Name:
+            <input type="text" name="name" placeholder="Name">
+          </label>
+          <label> 
+            Email: 
+            <input type="text" name="email" placeholder="Email">
+          </label>
+          <label> 
+            Company:
+            <input type="text" name="company" placeholder="Company">
+          </label>
+          <label> 
+            Date Added: 
+            <input type="date" name="dateAdded">
+          </label>
+          <label> 
+            Spark: 
+            <input type="text" name="spark" placeholder="Spark">
+          </label>
+          <button id="clickMe" type="submit">Add Person</button>
+        </form>
+      </section>
 
     <div class="modal hidden" id="updateModal"></div>
     <br>
