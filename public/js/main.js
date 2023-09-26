@@ -84,7 +84,9 @@ async function updatePerson(userId) {
 async function createModal(userId) {
   const person = await getPersonById(userId);
   createUpdateFormHtml(person);
-  document.querySelector('#updateModal').style.display = 'block';
+  // document.querySelector('#updateModal').style.display = 'block';
+  document.querySelector('.modal-container').classList.remove('hidden');
+  document.querySelector('body').classList.add('bg');
 }
 
 function createUpdateFormHtml(arr) {
@@ -92,14 +94,22 @@ function createUpdateFormHtml(arr) {
   let formContainer = document.createElement('div');
   let formHtml = `
   <form id="updateForm" class="update-form">
-    <label for="update-name">Name</>
-    <input type="text" id="update-name" name="name" placeholder="Name" value="${arr[0].name}"/>
-    <label for="update-email">Email</>
-    <input type="text" id="update-email" name="email" placeholder="Email" value="${arr[0].email}"/>
-    <label for="update-company">Company</>
-    <input type="text" id="update-company" name="company" placeholder="Company" value="${arr[0].company}"/>
-    <label for="update-spark">Spark</>
-    <input type="text" id="update-spark" name="spark" placeholder="Spark" value="${arr[0].spark}"/>
+    <label for="update-name">
+      Name:
+      <input type="text" id="update-name" name="name" placeholder="Name" value="${arr[0].name}"/>
+    </label>
+    <label for="update-email">
+      Email:
+      <input type="text" id="update-email" name="email" placeholder="Email" value="${arr[0].email}"/>
+    </label>
+    <label for="update-company">
+      Company:
+      <input type="text" id="update-company" name="company" placeholder="Company" value="${arr[0].company}"/>
+    </label>
+    <label for="update-spark">
+      Spark:
+      <input type="text" id="update-spark" name="spark" placeholder="Spark" value="${arr[0].spark}"/>
+    </label>
     <button class="clickMe" type="submit" data-update="${arr[0].uuid}">Update</button>
   </form>
   `;
