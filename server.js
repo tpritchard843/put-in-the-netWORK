@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const { uuid }= require('uuidv4');
+const { v4: uuidv4 }= require('uuid');
 const morgan = require('morgan');
 const express = require('express');
 const cors = require('cors');
@@ -16,11 +16,11 @@ class Person {
     this.company = company;
     this.dateAdded = dateAdded;
     this.spark = spark;
-    this.uuid = uuid();
+    this.uuid = uuidv4();
   }
 }
 
-const connectionString = `mongodb+srv://${encodeURIComponent(process.env._mongoUsername)}:${encodeURIComponent(process.env._mongoPassword)}@cluster0.uh4bxo2.mongodb.net/?retryWrites=true&w=majority`;
+const connectionString = process.env.DB_STRING;
 
 MongoClient.connect(connectionString)
   .then(client => {
@@ -41,6 +41,7 @@ MongoClient.connect(connectionString)
     app.get('/', (req, res) => {
       db.collection('persons')
         .find()
+        .sort({name: 1})
         .toArray()
         .then(persons => {
           res.render('index.ejs', {persons: persons});
@@ -136,7 +137,7 @@ MongoClient.connect(connectionString)
       }
     })
 
-    app.listen(PORT, () => {
+    app.listen(process.env.PORT || PORT, () => {
       console.log(`Server running on port ${PORT}`);
     })
   })

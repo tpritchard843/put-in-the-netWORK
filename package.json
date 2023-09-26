@@ -23,6 +23,7 @@
     "font-awesome": "^4.7.0",
     "mongodb": "^6.0.0",
     "morgan": "^1.10.0",
+    "uuid": "^9.0.1",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
