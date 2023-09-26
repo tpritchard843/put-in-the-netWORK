@@ -124,6 +124,7 @@ async function deletePerson(userId) {
   try {
     const res = await fetch(`/persons/${userId}`, {
       method: 'delete',
+      mode: 'cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         uuid: userId,

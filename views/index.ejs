@@ -4,11 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <h1>Coffee Chat Rolodex</h1>
+
     <!-- Add person Button -- Modal popup with the form-->
     <!-- Form :
     Name
@@ -26,8 +28,8 @@
               <h3 class="text company">Company: <%=persons[i].company%></h3>
               <h3 class="text dateAdded">Date Added: <%=persons[i].dateAdded%></h3>
               <h3 class="text spark">Spark: <%=persons[i].spark%></h3>
-              <button class="update-btn" id="updateBtn" data-edit=<%= persons[i].uuid%>>Update</button>
-              <button class="delete-btn" id="deleteBtn" data-delete=<%= persons[i].uuid%>>Delete</button>
+              <button class="update-btn" id="updateBtn" aria-label="Update" data-edit=<%= persons[i].uuid%>><i class="fa fa-pencil-square-o" aria-hidden="true" title="Update this card"></i></button>
+              <button class="delete-btn" id="deleteBtn" aria-label="Delete" data-delete=<%= persons[i].uuid%>><i class="fa fa-trash" aria-hidden="true" title="Delete this card"></i></button>
             </section>
         </div>
       <% } %>
