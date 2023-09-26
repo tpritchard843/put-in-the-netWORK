@@ -28,7 +28,7 @@ body {
   margin: auto;
 }
 
-/* Buttons */ 
+/* Buttons */
 .prev, .next {
   cursor: pointer;
   position: absolute;
@@ -58,12 +58,21 @@ button {
   color: #FFECD1;
 }
 
-/* Slides */ 
+/* Slides */
 
 .cards {
   border: 5px solid #001524;
   width: 100%;
   height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cards > button {
+  width: 100px;
+  margin-bottom: 5px;
 }
 
 /* Hide the images by default */
@@ -117,24 +126,40 @@ input {
 }
 
 
-/* Update */ 
-
-.modal {
-  width: 300px;
-  height: 300px;
-  padding: 20px 10px;
-  background: blue;
+/* Update */
+.hidden {
   display: none;
+}
+.modal-container {
+  padding: 30px 30px;
+  background: #FFECD1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 30vw;
+  border: 5px solid #001524;
+}
+
+.bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(40px);
+}
+
+.modal > div{
+  display: flex;
   margin: auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.update-form{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
 
+.modal > label {
+  font-size: .75rem;
+}
