@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 require('dotenv').config();
 
 
@@ -137,7 +137,7 @@ MongoClient.connect(connectionString)
       }
     })
 
-    app.listen(process.env.PORT || PORT, () => {
+    app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     })
   })
