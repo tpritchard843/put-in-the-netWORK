@@ -39,31 +39,33 @@
     <h2> Add Person </h2>
       <section class="form cards container">
         <form action="/persons" method="POST">
-          <label> 
+          <label>
             Name:
             <input type="text" name="name" placeholder="Name">
           </label>
-          <label> 
-            Email: 
+          <label>
+            Email:
             <input type="text" name="email" placeholder="Email">
           </label>
-          <label> 
+          <label>
             Company:
             <input type="text" name="company" placeholder="Company">
           </label>
-          <label> 
-            Date Added: 
+          <label>
+            Date Added:
             <input type="date" name="dateAdded">
           </label>
-          <label> 
-            Spark: 
+          <label>
+            Spark:
             <input type="text" name="spark" placeholder="Spark">
           </label>
           <button id="clickMe" type="submit">Add Person</button>
         </form>
       </section>
 
-    <div class="modal hidden" id="updateModal"></div>
+    <div class="modal-container hidden">
+      <div class="modal" id="updateModal"></div>
+    </div>
     <br>
     <script src="js/main.js"></script>
   </body>
