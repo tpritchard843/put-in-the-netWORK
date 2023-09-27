@@ -3,13 +3,19 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>Coffee Contacts</title>
+    <!-- Font links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,900&family=Satisfy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- CSS links -->
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <h1>Coffee Chat Rolodex</h1>
+    <h1 class="bold">Coffee Contacts</h1>
 
     <!-- Add person Button -- Modal popup with the form-->
     <!-- Form :
@@ -22,14 +28,16 @@
       <% for(let i = 0; i < persons.length; i++) {%>
         <div class="mySlides fade">
           <div class="numbertext"><%=i+1%> / <%=persons.length%></div>
-            <section class="cards">
-              <h3 class="text name">Name: <%=persons[i].name%></h3>
-              <h3 class="text email">Email: <%=persons[i].email%></h3>
-              <h3 class="text company">Company: <%=persons[i].company%></h3>
-              <h3 class="text dateAdded">Date Added: <%=persons[i].dateAdded%></h3>
-              <h3 class="text spark">Spark: <%=persons[i].spark%></h3>
-              <button class="update-btn" id="updateBtn" aria-label="Update" data-edit=<%= persons[i].uuid%>><i class="fa fa-pencil-square-o" aria-hidden="true" title="Update this card"></i></button>
-              <button class="delete-btn" id="deleteBtn" aria-label="Delete" data-delete=<%= persons[i].uuid%>><i class="fa fa-trash" aria-hidden="true" title="Delete this card"></i></button>
+            <section class="cards slides-container">
+              <h3 class="text name"><span class="bold" style="text-decoration:underline;">Name:</span> <%=persons[i].name%></h3>
+              <h3 class="text email"><span class="bold" style="text-decoration:underline;">Email:</span> <%=persons[i].email%></h3>
+              <h3 class="text company"><span class="bold" style="text-decoration:underline;">Company:</span> <%=persons[i].company%></h3>
+              <h3 class="text dateAdded"><span class="bold" style="text-decoration:underline;">Date Added:</span> <%=persons[i].dateAdded%></h3>
+              <h3 class="text spark"><span class="bold" style="text-decoration:underline;">Spark:</span> <%=persons[i].spark%></h3>
+              <div class="btn-container">
+                <button class="update-btn" id="updateBtn" aria-label="Update" data-edit=<%= persons[i].uuid%>><i class="fa fa-pencil-square-o" aria-hidden="true" title="Update this card"></i></button>
+                <button class="delete-btn" id="deleteBtn" aria-label="Delete" data-delete=<%= persons[i].uuid%>><i class="fa fa-trash" aria-hidden="true" title="Delete this card"></i></button>
+              </div>
             </section>
         </div>
       <% } %>
@@ -38,7 +46,7 @@
       <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
 
-    <h2> Add Person </h2>
+    <h2 class="bold"> Add a Person: </h2>
       <section class="form cards container">
         <form action="/persons" method="POST">
           <label>
