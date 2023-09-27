@@ -1,7 +1,6 @@
 //document.querySelector('#clickMe').addEventListener('click', makeReq);
 
 // Makes data request on Page load --> this is data-intensive and does not scale well. How can we refactor? Implement caching?
-
 window.addEventListener('load', makeReq);
 document.addEventListener('click', e => {
   if (e.target.dataset.edit) {
@@ -16,6 +15,12 @@ document.addEventListener('click', e => {
     deletePerson(e.target.dataset.delete);
    //alert('Success! User deleted.');
     window.location.reload();
+  }
+  if (e.target.id === 'signupBtn') {
+    alert('Please sign up');
+  }
+  if (e.target.id === 'loginBtn') {
+    alert('Please login');
   }
 })
 
