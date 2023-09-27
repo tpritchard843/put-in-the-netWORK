@@ -8,6 +8,7 @@
 * {
   margin: 0;
   font: inherit;
+  font-family: 'Caveat', sans-serif;
 }
 
 img, svg {
@@ -17,30 +18,34 @@ img, svg {
 /* Basic Styling */
 
 body {
-  background-color: #FFECD1;
+  background-image: url("/images/coffee-stains.jpg");
   color: #78290F;
 }
 h1 {
-  font-size: 2.75rem;
+  font-size: 3.5rem;
   letter-spacing: 1.5px;
+  text-decoration: underline;
 }
 
 h1, h2{
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 
 h2 {
-  margin: 0 0 -3rem 0;
-  font-size: 1.6rem;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.bold {
   font-weight: 700;
 }
 
 /* Container */
 .container {
-  max-width: 1000px;
+  max-width: 800px;
   position: relative;
-  margin: 4rem auto;
+  margin: 25px auto 50px;
 }
 
 /* Buttons */
@@ -68,6 +73,10 @@ h2 {
   background-color: rgba(0, 21, 36, .7);
 }
 
+.btn-container{
+  margin-top: 10px;
+}
+
 button {
   background-color: #001524;
   color: #FFECD1;
@@ -93,10 +102,16 @@ button:hover {
 .cards {
   border: 5px solid #001524;
   width: 100%;
-  height: 50%;
+  height: 450px;
   border-radius: 25px;
   padding: 1rem;
   box-shadow: 10px 10px 2px rgba(0, 21, 36, .8);
+}
+
+.slides-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .mySlides {
@@ -107,7 +122,7 @@ button:hover {
 .text {
   color: #001524;
   font-size: 1.75rem;
-  padding: .75rem;
+  padding: .5rem;
   bottom: 8px;
   width: 100%;
   margin: 0 0 0 5rem;
@@ -137,7 +152,7 @@ button:hover {
 
 /* Form */
 label {
-  color: #78290F;
+  color: #001524;
   display: block;
   font-size: 1.25em;
   font-weight: 600;
@@ -148,6 +163,7 @@ label {
 input {
   margin: 0 0 1em 0;
   width: 100%;
+  font-family: sans-serif;
 }
 
 
