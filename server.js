@@ -38,6 +38,16 @@ MongoClient.connect(connectionString)
 
     //CRUD methods
     //READ
+    // app.get('/', (req, res) => {
+    //   db.collection('persons')
+    //     .find()
+    //     .sort({name: 1})
+    //     .toArray()
+    //     .then(persons => {
+    //       res.render('user-contacts.ejs', {persons: persons});
+    //     })
+    //     .catch(err => console.error(err))
+    // })
     app.get('/', (req, res) => {
       db.collection('persons')
         .find()
