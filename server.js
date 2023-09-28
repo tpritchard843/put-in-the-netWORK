@@ -2,6 +2,8 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const { v4: uuidv4 }= require('uuid');
 const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -27,6 +29,7 @@ MongoClient.connect(connectionString)
     console.log('Connected to Database');
     const db = client.db('networking-rolodex');
     const personsCollection = db.collection('persons');
+    const usersCollection = db.collection('users');
 
     // Middleware
     app.set('view engine', 'ejs');
@@ -99,6 +102,68 @@ MongoClient.connect(connectionString)
           res.redirect('/');
         })
         .catch(err => console.error(err))
+    })
+
+    app.post('/signup', async(req, res) => {
+      try {
+        await usersCollection
+        .insertOne({
+          username: req.body.username,
+          email: req.body.email,
+          password: bcrypt.hashSync(req.body.password, 8),
+          uuid: uuidv4(),
+        })
+        console.log(`User ${req.body.username} was successfully added to the database.`);
+        res.render('signupSucceeded.ejs');
+      }
+      catch (err) {
+        res.render('signupFailed.ejs');
+        console.error(err);
+      }
+    })
+
+    app.post('/login', async(req, res) => {
+      try{
+        const user = await usersCollection
+          .findOne({
+          username: req.body.username
+        })
+
+        if(!user) {
+          return res.status(404).send({message: 'User not found.'});
+        }
+
+        let passwordIsValid = bcrypt.compareSync(
+          req.body.password,
+          user.password
+        )
+
+        if(!passwordIsValid) {
+          return res.status(401).send({
+            accessToken: null,
+            message: "Invalid password."
+          })
+        }
+        if (passwordIsValid) {
+          const token = jwt.sign({ uuid: user.uuid },
+            process.env.JWT_SECRET,
+            {
+              algorithm: 'HS256',
+              allowInsecureKeySizes: true,
+              expiresIn: 86400, // 24 hours
+            });
+          return res.status(200).send({
+            uuid: user.uuid,
+            username: user.username,
+            email: user.email,
+            accessToken: token
+          });
+        }
+      }
+      catch(err) {
+        res.status(500).json({error: 'something went wrong'});
+        console.error(err);
+      }
     })
 
     //UPDATE
