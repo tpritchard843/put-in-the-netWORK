@@ -1,7 +1,11 @@
 //document.querySelector('#clickMe').addEventListener('click', makeReq);
 
 // Makes data request on Page load --> this is data-intensive and does not scale well. How can we refactor? Implement caching?
-window.addEventListener('load', makeReq);
+// window.addEventListener('load', makeReq);
+
+const bcrypt = require("bcryptjs");
+
+
 document.addEventListener('click', e => {
   if (e.target.dataset.edit) {
     createModal(e.target.dataset.edit);
@@ -22,6 +26,9 @@ document.addEventListener('click', e => {
   if (e.target.id === 'loginBtn') {
     openLoginModal();
   }
+  if (e.target.id === 'loginModalButton') {
+    login();
+  }
 })
 
 //READ
@@ -30,7 +37,9 @@ async function makeReq(){
   try {
     const res = await fetch(`/persons`, {
       method:'get',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json', "x-access-token": localStorage.getItem("jwt")
+      },
     });
     let rolodex = await res.json();
     console.log(rolodex);
@@ -182,4 +191,31 @@ function openSignupModal() {
 function openLoginModal() {
   document.querySelector('#loginModal').classList.remove('hidden');
   document.querySelector('body').classList.add('bg');
+}
+
+async function login() {
+  const loginForm = document.querySelector('#loginForm');
+  let formData = new FormData(loginForm);
+  const username = formData.get('username');
+  const password = formData.get('password');
+
+  try {
+    const res = await fetch(`/login`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(
+        {
+        username,
+        password: bcrypt.hashSync(password, 8)
+        }
+      )
+    });
+    let user = await res.json();
+    console.log(user)
+    //localStorage.setItem("jwt", user.accessToken)
+    return user;
+  }
+  catch (err) {
+    console.error(err);
+  }
 }
