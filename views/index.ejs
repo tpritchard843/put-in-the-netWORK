@@ -53,7 +53,7 @@
     </div>
     <div class="modal-container hidden"  id="loginModal">
       <div class="modal">
-        <form action="/login" method="POST">
+        <form id="loginForm">
           <label for="username">
             Username:
             <input name="username" type="text" required>
@@ -62,7 +62,7 @@
             Password:
             <input name="password" type="password" required>
           </label>
-          <button id="login" type="submit">Log In</button>
+          <button id="loginModalButton" type="submit">Log In</button>
         </form>
       </div>
     </div>
