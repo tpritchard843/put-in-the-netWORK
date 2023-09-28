@@ -4,12 +4,13 @@ const { v4: uuidv4 }= require('uuid');
 const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 require('dotenv').config();
-
+const jwtMiddleware = require('./middlewares/authJwt')
 
 class Person {
   constructor(name, email, company, dateAdded, spark) {
@@ -37,6 +38,7 @@ MongoClient.connect(connectionString)
     app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+    app.use(cookieParser());
     app.use(cors());
 
     //CRUD methods
@@ -61,15 +63,22 @@ MongoClient.connect(connectionString)
         })
         .catch(err => console.error(err))
     })
-    app.get('/persons', (req, res) => {
-      db.collection('persons')
-        .find()
-        .sort({name: 1})
-        .toArray()
-        .then(results => {
-          res.send(results);
-        })
-        .catch(err => console.error(err))
+    app.get('/persons', jwtMiddleware.authorization ,(req, res) => {
+      return res.json({ user: { id: req.userId} })
+      // db.collection('persons')
+      //   .find()
+      //   .sort({name: 1})
+      //   .toArray()
+      //   .then(results => {
+      //     console.log(results);
+      //   })
+      //   .catch(err => console.error(err))
+      // try {
+      //   res.status(200).json({message: 'Successfully logged in'});
+      // }
+      // catch(err) {
+      //   res.status(500).json({error: 'Something went wrong'})
+      // }
     })
     app.get('/persons/:id', async (req, res) => {
       console.log({
@@ -152,12 +161,23 @@ MongoClient.connect(connectionString)
               allowInsecureKeySizes: true,
               expiresIn: 86400, // 24 hours
             });
-          return res.status(200).send({
-            uuid: user.uuid,
-            username: user.username,
-            email: user.email,
-            accessToken: token
-          });
+            //console.log(token);
+            return res
+              .cookie("accessToken", token, {
+                maxAge: 24 *60 * 60 * 1000,
+                httpOnly: true,
+              })
+              .status(200)
+              .json({message: 'Successful login'})
+          // res.setHeader({"Set-Cookie": `jwt=${token}`})
+          // return res.cookie({"accessToken": token}).status(200).send(
+          //   {
+          //     uuid: user.uuid,
+          //     username: user.username,
+          //     email: user.email,
+          //     accessToken: token
+          //   }
+          // );
         }
       }
       catch(err) {
