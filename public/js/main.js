@@ -17,10 +17,10 @@ document.addEventListener('click', e => {
     window.location.reload();
   }
   if (e.target.id === 'signupBtn') {
-    alert('Please sign up');
+    openSignupModal();
   }
   if (e.target.id === 'loginBtn') {
-    alert('Please login');
+    openLoginModal();
   }
 })
 
@@ -168,4 +168,18 @@ function showSlides(n) {
     slides[i].style.display = "none";
   }
   slides[slideIndex-1].style.display = "block";
+}
+
+
+
+// SIGNUP FEATURES
+function openSignupModal() {
+  document.querySelector('#signupModal').classList.remove('hidden');
+  document.querySelector('body').classList.add('bg');
+}
+
+//Loginfeatures
+function openLoginModal() {
+  document.querySelector('#loginModal').classList.remove('hidden');
+  document.querySelector('body').classList.add('bg');
 }
