@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
   if (!token) {
@@ -21,8 +21,23 @@ verifyToken = (req, res, next) => {
             });
 };
 
-const authJwt = {
-  verifyToken,
+const authorization = (req, res, next) => {
+  const token = req.cookies.accessToken;
+  if (!token) {
+    return res.sendStatus(403);
+  }
+  try {
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = data.uuid;
+    return next();
+  } catch {
+    return res.sendStatus(403);
+  }
 };
 
-module.exports
+const authJwt = {
+  verifyToken,
+  authorization
+};
+
+module.exports = authJwt;
