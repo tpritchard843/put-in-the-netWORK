@@ -1,7 +1,7 @@
 //document.querySelector('#clickMe').addEventListener('click', makeReq);
 
 // Makes data request on Page load --> this is data-intensive and does not scale well. How can we refactor? Implement caching?
-window.addEventListener('load', makeReq);
+//window.addEventListener('load', makeReq);
 document.addEventListener('click', e => {
   if (e.target.dataset.edit) {
     createModal(e.target.dataset.edit);
@@ -26,19 +26,19 @@ document.addEventListener('click', e => {
 
 //READ
 
-async function makeReq(){
-  try {
-    const res = await fetch(`/persons`, {
-      method:'get',
-      headers: {'Content-Type': 'application/json'},
-    });
-    let rolodex = await res.json();
-    console.log(rolodex);
-  }
-  catch(err) {
-    console.error(err);
-  }
-}
+// async function makeReq(){
+//   try {
+//     const res = await fetch(`/persons`, {
+//       method:'get',
+//       headers: {'Content-Type': 'application/json'},
+//     });
+//     let rolodex = await res.json();
+//     console.log(rolodex);
+//   }
+//   catch(err) {
+//     console.error(err);
+//   }
+// }
 
 async function getPersonById(userId) {
   try {
