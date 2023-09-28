@@ -24,18 +24,47 @@
     Date added
     company
     spark -->
-    <div class="container cards">
+    <div class="container cards auth-container">
       <h2>Please sign up to use this app. Already a member? Login below.</h2>
       <div class="user-btn-container">
         <button id="signupBtn">Sign Up</button>
         <button id="loginBtn">Log In</button>
       </div>
     </div>
-    <div class="modal-container hidden">
-      <div class="modal" id="signupModal"></div>
+    <div class="modal-container hidden" id="signupModal">
+      <h2>Sign up below.</h2>
+      <div class="modal">
+        <form action="/signup" method="POST">
+          <label for="username">
+            Username:
+            <input name="username" type="text" required>
+          </label>
+          <label for="email">
+            Email:
+            <input name="email" type="text" required>
+          </label>
+          <label for="password">
+            Password:
+            <input name="password" type="password" required>
+          </label>
+          <button id="addUser" type="submit">Sign Up</button>
+        </form>
+      </div>
     </div>
-    <div class="modal-container hidden">
-      <div class="modal" id="loginModal"></div>
+    <div class="modal-container hidden"  id="loginModal">
+      <div class="modal">
+        <form action="/login" method="POST">
+          <label for="username">
+            Username:
+            <input name="username" type="text" required>
+          </label>
+          <label for="password">
+            Password:
+            <input name="password" type="password" required>
+          </label>
+          <button id="login" type="submit">Log In</button>
+        </form>
+      </div>
     </div>
     <script src="js/main.js"></script>
   </body>
