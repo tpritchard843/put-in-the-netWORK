@@ -11,10 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,900&family=Satisfy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- CSS links -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
+    <header>
+      <button id="logoutBtn">Logout</button>
+    </header>
     <h1 class="bold">Coffee Contacts</h1>
 
     <!-- Add person Button -- Modal popup with the form-->
@@ -35,8 +38,8 @@
               <h3 class="text dateAdded"><span class="bold" style="text-decoration:underline;">Date Added:</span> <%=persons[i].dateAdded%></h3>
               <h3 class="text spark"><span class="bold" style="text-decoration:underline;">Spark:</span> <%=persons[i].spark%></h3>
               <div class="btn-container">
-                <button class="update-btn" id="updateBtn" aria-label="Update" data-edit=<%= persons[i].uuid%>><i class="fa fa-pencil-square-o" aria-hidden="true" title="Update this card"></i></button>
-                <button class="delete-btn" id="deleteBtn" aria-label="Delete" data-delete=<%= persons[i].uuid%>><i class="fa fa-trash" aria-hidden="true" title="Delete this card"></i></button>
+                <button class="update-btn" id="updateBtn" aria-label="Update" data-edit=<%= persons[i].contactId%>><i class="fa fa-pencil-square-o" aria-hidden="true" title="Update this card"></i></button>
+                <button class="delete-btn" id="deleteBtn" aria-label="Delete" data-delete=<%= persons[i].contactId%>><i class="fa fa-trash" aria-hidden="true" title="Delete this card"></i></button>
               </div>
             </section>
         </div>
@@ -76,7 +79,16 @@
     <div class="modal-container hidden">
       <div class="modal" id="updateModal"></div>
     </div>
+    <div class="modal-container hidden" id="logoutFormContainer">
+      <div class="modal" id="logout">
+        <form id="logoutForm">
+          <h3>Are you sure you want to log out?</h3>
+          <button class="logout-no-btn" id="logoutNoBtn">No</button>
+          <button class="logout-yes-btn" id="logoutYesBtn">Yes</button>
+        </form>
+      </div>
+    </div>
     <br>
-    <script src="js/main.js"></script>
+    <script src="/js/main.js"></script>
   </body>
 </html>
