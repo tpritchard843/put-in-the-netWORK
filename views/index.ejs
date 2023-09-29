@@ -24,59 +24,48 @@
     Date added
     company
     spark -->
-    <div class="container">
-      <% for(let i = 0; i < persons.length; i++) {%>
-        <div class="mySlides fade">
-          <div class="numbertext"><%=i+1%> / <%=persons.length%></div>
-            <section class="cards slides-container">
-              <h3 class="text name"><span class="bold" style="text-decoration:underline;">Name:</span> <%=persons[i].name%></h3>
-              <h3 class="text email"><span class="bold" style="text-decoration:underline;">Email:</span> <%=persons[i].email%></h3>
-              <h3 class="text company"><span class="bold" style="text-decoration:underline;">Company:</span> <%=persons[i].company%></h3>
-              <h3 class="text dateAdded"><span class="bold" style="text-decoration:underline;">Date Added:</span> <%=persons[i].dateAdded%></h3>
-              <h3 class="text spark"><span class="bold" style="text-decoration:underline;">Spark:</span> <%=persons[i].spark%></h3>
-              <div class="btn-container">
-                <button class="update-btn" id="updateBtn" aria-label="Update" data-edit=<%= persons[i].uuid%>><i class="fa fa-pencil-square-o" aria-hidden="true" title="Update this card"></i></button>
-                <button class="delete-btn" id="deleteBtn" aria-label="Delete" data-delete=<%= persons[i].uuid%>><i class="fa fa-trash" aria-hidden="true" title="Delete this card"></i></button>
-              </div>
-            </section>
-        </div>
-      <% } %>
-
-      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <div class="container cards auth-container">
+      <h2>Please sign up to use this app. Already a member? Login below.</h2>
+      <div class="user-btn-container">
+        <button id="signupBtn">Sign Up</button>
+        <button id="loginBtn">Log In</button>
+      </div>
     </div>
-
-    <h2 class="bold"> Add a Person: </h2>
-      <section class="form cards container">
-        <form action="/persons" method="POST">
-          <label>
-            Name:
-            <input type="text" name="name" placeholder="Name">
+    <div class="modal-container hidden" id="signupModal">
+      <h2>Sign up below.</h2>
+      <div class="modal">
+        <form action="/signup" method="POST">
+          <label for="username">
+            Username:
+            <input name="username" type="text" required>
           </label>
-          <label>
+          <label for="email">
             Email:
-            <input type="text" name="email" placeholder="Email">
+            <input name="email" type="text" required>
           </label>
-          <label>
-            Company:
-            <input type="text" name="company" placeholder="Company">
+          <label for="password">
+            Password:
+            <input name="password" type="password" required>
           </label>
-          <label>
-            Date Added:
-            <input type="date" name="dateAdded">
-          </label>
-          <label>
-            Spark:
-            <input type="text" name="spark" placeholder="Spark">
-          </label>
-          <button id="clickMe" type="submit">Add Person</button>
+          <button id="addUser" type="submit">Sign Up</button>
         </form>
-      </section>
-
-    <div class="modal-container hidden">
-      <div class="modal" id="updateModal"></div>
+      </div>
     </div>
-    <br>
+    <div class="modal-container hidden"  id="loginModal">
+      <div class="modal">
+        <form id="loginForm">
+          <label for="username">
+            Username:
+            <input name="username" type="text" required>
+          </label>
+          <label for="password">
+            Password:
+            <input name="password" type="password" required>
+          </label>
+          <button id="loginModalButton" type="submit">Log In</button>
+        </form>
+      </div>
+    </div>
     <script src="js/main.js"></script>
   </body>
 </html>

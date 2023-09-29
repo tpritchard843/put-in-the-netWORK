@@ -1,8 +1,9 @@
 //document.querySelector('#clickMe').addEventListener('click', makeReq);
 
 // Makes data request on Page load --> this is data-intensive and does not scale well. How can we refactor? Implement caching?
+// window.addEventListener('load', makeReq);
 
-window.addEventListener('load', makeReq);
+
 document.addEventListener('click', e => {
   if (e.target.dataset.edit) {
     createModal(e.target.dataset.edit);
@@ -17,6 +18,30 @@ document.addEventListener('click', e => {
    //alert('Success! User deleted.');
     window.location.reload();
   }
+  if (e.target.id === 'signupBtn') {
+    openSignupModal();
+  }
+  if (e.target.id === 'loginBtn') {
+    //alert('login clicked')
+    openLoginModal();
+  }
+  if (e.target.id === 'loginModalButton') {
+    e.preventDefault();
+    login();
+  }
+  if (e.target.id === 'logoutBtn') {
+    document.querySelector('#logoutFormContainer').classList.remove('hidden');
+  }
+
+  if (e.target.id === 'logoutNoBtn') {
+    e.preventDefault()
+    document.querySelector('#logoutFormContainer').classList.add('hidden');
+  }
+  if (e.target.id === 'logoutYesBtn') {
+    e.preventDefault();
+    logout();
+    //alert('logging out')
+  }
 })
 
 //READ
@@ -25,7 +50,9 @@ async function makeReq(){
   try {
     const res = await fetch(`/persons`, {
       method:'get',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json', "x-access-token": localStorage.getItem("jwt")
+      },
     });
     let rolodex = await res.json();
     console.log(rolodex);
@@ -35,9 +62,9 @@ async function makeReq(){
   }
 }
 
-async function getPersonById(userId) {
+async function getPersonById(contactID) {
   try {
-    const url = `/persons/${userId}`
+    const url = `/persons/${contactID}`
     console.log(url);
     const res = await fetch(url, {
       method: 'get',
@@ -110,7 +137,7 @@ function createUpdateFormHtml(arr) {
       Spark:
       <input type="text" id="update-spark" name="spark" placeholder="Spark" value="${arr[0].spark}"/>
     </label>
-    <button class="clickMe" type="submit" data-update="${arr[0].uuid}">Update</button>
+    <button class="clickMe" type="submit" data-update="${arr[0].contactId}">Update</button>
   </form>
   `;
 
@@ -163,4 +190,75 @@ function showSlides(n) {
     slides[i].style.display = "none";
   }
   slides[slideIndex-1].style.display = "block";
+}
+
+
+
+// SIGNUP FEATURES
+function openSignupModal() {
+  document.querySelector('#signupModal').classList.remove('hidden');
+  document.querySelector('body').classList.add('bg');
+}
+
+//Loginfeatures
+function openLoginModal() {
+  document.querySelector('#loginModal').classList.remove('hidden');
+  document.querySelector('body').classList.add('bg');
+}
+
+async function login() {
+  const loginForm = document.querySelector('#loginForm');
+  let formData = new FormData(loginForm);
+  const username = formData.get('username');
+  const password = formData.get('password');
+
+  try {
+    const res = await fetch(`/login`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(
+        {
+        username,
+        password: password
+        }
+      )
+    });
+    let response = await res.json();
+    console.log(response)
+    if (response.status == 200) {
+      console.log('success :' + response);
+      window.location.href = '/persons';
+    } else{
+      console.log('error: '+response);
+    }
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+
+// Logout
+const logout = async () => {
+  try {
+    const res = await fetch(`/logout`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(
+        {
+        message: 'Logout request'
+        }
+      )
+      })
+    let response = await res.json();
+    if (response.status == 200) {
+      console.log('success :' + response);
+      window.location.href = '/';
+    } else{
+      console.log('error: '+response);
+    }
+  }
+  catch (err) {
+    console.error(err);
+  }
 }

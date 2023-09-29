@@ -45,11 +45,19 @@ h2 {
   font-weight: 700;
 }
 
-/* Container */
+/* Containers */
 .container {
   max-width: 800px;
   position: relative;
   margin: 25px auto 50px;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
 }
 
 /* Buttons */
@@ -80,6 +88,15 @@ h2 {
 .btn-container{
   margin-top: 10px;
   margin-left: 70px;
+}
+
+.user-btn-container{
+  display: flex;
+  gap: 15px;
+}
+
+.user-btn-container button {
+  width: 150px;
 }
 
 button {
