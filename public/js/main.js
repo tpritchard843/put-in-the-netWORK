@@ -3,8 +3,6 @@
 // Makes data request on Page load --> this is data-intensive and does not scale well. How can we refactor? Implement caching?
 // window.addEventListener('load', makeReq);
 
-const bcrypt = require("bcryptjs");
-
 
 document.addEventListener('click', e => {
   if (e.target.dataset.edit) {
@@ -24,10 +22,25 @@ document.addEventListener('click', e => {
     openSignupModal();
   }
   if (e.target.id === 'loginBtn') {
+    //alert('login clicked')
     openLoginModal();
   }
   if (e.target.id === 'loginModalButton') {
+    e.preventDefault();
     login();
+  }
+  if (e.target.id === 'logoutBtn') {
+    document.querySelector('#logoutFormContainer').classList.remove('hidden');
+  }
+
+  if (e.target.id === 'logoutNoBtn') {
+    e.preventDefault()
+    document.querySelector('#logoutFormContainer').classList.add('hidden');
+  }
+  if (e.target.id === 'logoutYesBtn') {
+    e.preventDefault();
+    logout();
+    //alert('logging out')
   }
 })
 
@@ -49,9 +62,9 @@ async function makeReq(){
   }
 }
 
-async function getPersonById(userId) {
+async function getPersonById(contactID) {
   try {
-    const url = `/persons/${userId}`
+    const url = `/persons/${contactID}`
     console.log(url);
     const res = await fetch(url, {
       method: 'get',
@@ -124,7 +137,7 @@ function createUpdateFormHtml(arr) {
       Spark:
       <input type="text" id="update-spark" name="spark" placeholder="Spark" value="${arr[0].spark}"/>
     </label>
-    <button class="clickMe" type="submit" data-update="${arr[0].uuid}">Update</button>
+    <button class="clickMe" type="submit" data-update="${arr[0].contactId}">Update</button>
   </form>
   `;
 
@@ -206,14 +219,44 @@ async function login() {
       body: JSON.stringify(
         {
         username,
-        password: bcrypt.hashSync(password, 8)
+        password: password
         }
       )
     });
-    let user = await res.json();
-    console.log(user)
-    //localStorage.setItem("jwt", user.accessToken)
-    return user;
+    let response = await res.json();
+    console.log(response)
+    if (response.status == 200) {
+      console.log('success :' + response);
+      window.location.href = '/persons';
+    } else{
+      console.log('error: '+response);
+    }
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+
+
+// Logout
+const logout = async () => {
+  try {
+    const res = await fetch(`/logout`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(
+        {
+        message: 'Logout request'
+        }
+      )
+      })
+    let response = await res.json();
+    if (response.status == 200) {
+      console.log('success :' + response);
+      window.location.href = '/';
+    } else{
+      console.log('error: '+response);
+    }
   }
   catch (err) {
     console.error(err);
