@@ -133,7 +133,7 @@ To get a local copy up and running follow these simple example steps.
 
 - [X] Add user profiles with sign-up and login features
 - [X] Add authorization
-- [] Implement caching to boost performance
+- [ ] Implement caching to boost performance
 
 See the [open issues](https://github.com/tpritchard843/put-in-the-netWORK/issues) for a full list of proposed features (and known issues).
 
