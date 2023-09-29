@@ -228,8 +228,15 @@ async function login() {
     if (response.status == 200) {
       console.log('success :' + response);
       window.location.href = '/persons';
-    } else{
-      console.log('error: '+response);
+    }
+    else if (response.status == 401) {
+      alert('Invalid password.');
+    }
+    else if (response.status == 404) {
+      alert('User not found.');
+    }
+    else{
+      alert('Something went wrong.');
     }
   }
   catch (err) {
