@@ -10,7 +10,7 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 require('dotenv').config();
-const jwtMiddleware = require('./middlewares/authJwt')
+const jwtMiddleware = require('./middlewares/authJwt');
 
 class Person {
   constructor(name, email, company, dateAdded, spark, uuid) {
@@ -19,7 +19,7 @@ class Person {
     this.company = company;
     this.dateAdded = dateAdded;
     this.spark = spark;
-    this.uuid = uuid;
+    this.uuid = uuid; // personId associated with user in DB
     this.contactId= uuidv4();
   }
 }
