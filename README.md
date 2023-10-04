@@ -83,7 +83,7 @@ As engineers, we all know the importance of networking: whether it be for job se
 
 There are many different ways out there to keep track of contacts for the people you meet. The focus of this app is to concentrate on a specific demoghraphic -- the people you meet when networking.
 
-Coffee Contacts is a one-stop shop for all storing contact information for the people you meet. Users can add new contacts, update existing ones, and even delete contacts.
+Coffee Contacts is a one-stop shop for storing contact information for the people you meet. Users can add new contacts, update existing ones, and even delete contacts.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
